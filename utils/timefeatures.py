@@ -144,5 +144,12 @@ def time_features_from_frequency_str(freq_str: str) -> List[TimeFeature]:
     raise RuntimeError(supported_freq_msg)
 
 
-def time_features(dates, freq='h'):
-    return np.vstack([feat(dates) for feat in time_features_from_frequency_str(freq)])
+def time_features(dates, freq='d'):
+    if freq == 'd':
+        features = pd.DataFrame({
+            'DayOfWeek': dates.dayofweek,
+            'DayOfMonth': dates.day,
+            'DayOfYear': dates.dayofyear
+        })
+
+    return features.to_numpy()
